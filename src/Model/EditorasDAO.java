@@ -19,23 +19,21 @@ public class EditorasDAO {
 	}
 
 	public long create(EditorasBEAN editoras) {
-		String query = "INSERT INTO editoras (razaoSocial) VALUES (?)";
-		return MySQLDAO.executeQuery(query, editoras.getRazaoSocial());
+	    String query = "INSERT INTO editoras (razaoSocial, status) VALUES (?, 'ATIVO')";
+	    return MySQLDAO.executeQuery(query, editoras.getRazaoSocial(), editoras.getStatus());
 	}
 
 	public void update(EditorasBEAN editoras) {
-		String query = "UPDATE CONTATOS SET razaoSocial=? WHERE idEditora = ?";
-		MySQLDAO.executeQuery(query, editoras.getRazaoSocial(), editoras.getStatus(),
-				editoras.getId());
-
+	    String query = "UPDATE editoras SET razaoSocial=?, status=? WHERE idEditora = ?";
+	    MySQLDAO.executeQuery(query, editoras.getRazaoSocial(), editoras.getStatus(), editoras.getId());
 	}
 
 	public void delete(EditorasBEAN editoras) {
-		MySQLDAO.executeQuery("DELETE FROM CONTATOS WHERE idEditora = ?", editoras.getId());
+		MySQLDAO.executeQuery("DELETE FROM editoras WHERE idEditora = ?", editoras.getId());
 	}
 
 	public ArrayList<EditorasBEAN> findAllEditoras() {
-		return listaEditoras("SELECT * FROM editoras ORDER BY Nome");
+		return listaEditoras("SELECT * FROM editoras ORDER BY razaoSocial");
 	}
 
 	public ArrayList<EditorasBEAN> listaEditoras(String query) {
